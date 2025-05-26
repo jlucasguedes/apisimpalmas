@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jlucasguedes.apisimpalmas.domain.Serie;
 import br.com.jlucasguedes.apisimpalmas.service.SerieService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
