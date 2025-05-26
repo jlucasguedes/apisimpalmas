@@ -1,10 +1,15 @@
 package br.com.jlucasguedes.apisimpalmas.domain;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,10 +23,15 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @Builder
+@Entity
+@Table(schema = "app", name = "unidade_educacional")
+@SequenceGenerator(schema = "app", name = "unidade_educacional_seq_gen", sequenceName = "unidade_educacional_id_seq", allocationSize = 1)
 public class UnidadeEducacional {
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "unidade_educacional_seq_gen")
   private Integer id;
-  @JsonInclude(Include.NON_NULL)
-  private String idsige;
+  @Column(unique = true, nullable = false)
+  private Integer idSimPalmas;
   @JsonInclude(Include.NON_NULL)
   private String codigoInep;
   @JsonInclude(Include.NON_NULL)
@@ -46,6 +56,4 @@ public class UnidadeEducacional {
   private String bairro;
   @JsonInclude(Include.NON_NULL)
   private String imagem;
-  @JsonInclude(Include.NON_NULL)
-  private List<Serie> series;
 }
