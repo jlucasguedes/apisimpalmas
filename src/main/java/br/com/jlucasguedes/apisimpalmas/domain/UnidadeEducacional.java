@@ -3,6 +3,7 @@ package br.com.jlucasguedes.apisimpalmas.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import br.com.jlucasguedes.apisimpalmas.utils.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -56,4 +57,9 @@ public class UnidadeEducacional {
   private String bairro;
   @JsonInclude(Include.NON_NULL)
   private String imagem;
+
+  public String getNomeFormatado() {
+    return StringUtils.formatNomeUnidade(nome);
+  }
+
 }
