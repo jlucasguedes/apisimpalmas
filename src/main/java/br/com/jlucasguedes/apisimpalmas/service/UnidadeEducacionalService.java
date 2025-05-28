@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.jlucasguedes.apisimpalmas.domain.UnidadeEducacional;
+import br.com.jlucasguedes.apisimpalmas.exception.CadastroNaoEncontradoException;
 import br.com.jlucasguedes.apisimpalmas.repository.UnidadeEducacionalRepository;
 import br.com.jlucasguedes.apisimpalmas.utils.HtmlParser;
 import jakarta.transaction.Transactional;
@@ -30,6 +31,11 @@ public class UnidadeEducacionalService {
 
   public List<UnidadeEducacional> findAll() {
     return repository.findAll(Sort.by(Direction.ASC, "idSimPalmas"));
+  }
+
+  public UnidadeEducacional findByNomeIgnoreCase(String nome) {
+    return repository.findByNomeIgnoreCase(nome)
+        .orElseThrow(() -> new CadastroNaoEncontradoException("Unidade educacional não encontrada"));
   }
 
   @Transactional

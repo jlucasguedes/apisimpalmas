@@ -1,5 +1,7 @@
 package br.com.jlucasguedes.apisimpalmas.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,4 +18,5 @@ import lombok.ToString;
 public class ResponsavelCadastro {
   private boolean temcadastro;
   private Pessoa pessoa;
+  private List<Crianca> crianças;
 }

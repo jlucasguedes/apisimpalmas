@@ -11,10 +11,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Builder
 @EqualsAndHashCode
+@Builder
 public class Pessoa {
-  private Long idpessoaresponsavel;
+  private int idpessoaresponsavel;
   private String nome;
   private String cpf;
   private String numerorg;
@@ -23,11 +23,12 @@ public class Pessoa {
   private String bairro;
   private String numero;
   private String complemento;
-  private String telefoneresidencial;
   private String celular;
   private String telefonecomercial;
+  private String telefoneresidencial;
   private String email;
   private String datacadastro;
   private String horacadastro;
   private boolean flativo;
+  private String protocolo;
 }
