@@ -18,5 +18,5 @@ import lombok.ToString;
 public class ResponsavelCadastro {
   private boolean temcadastro;
   private Pessoa pessoa;
-  private List<Crianca> crianças;
+  private List<Crianca> criancas;
 }

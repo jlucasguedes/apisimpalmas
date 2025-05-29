@@ -51,7 +51,7 @@ public class ResponsavelCadastroService {
       }
       ResponsavelCadastro responsavelEncontrado = wrapper.getRecords();
       responsavelEncontrado.getPessoa().setProtocolo(getProtocolo(cpf));
-      responsavelEncontrado.setCrianças(getCriancasComprovante(responsavelEncontrado.getPessoa().getProtocolo()));
+      responsavelEncontrado.setCriancas(getCriancasComprovante(responsavelEncontrado.getPessoa().getProtocolo()));
       return wrapper.getRecords();
     } catch (JsonProcessingException e) {
       e.printStackTrace();
