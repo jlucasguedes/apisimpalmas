@@ -37,10 +37,10 @@ public class ResponsavelCadastroService {
 
   public ResponsavelCadastro verifiResponsavelCadastro(String cpf) {
     try {
-      Document document = htmlParser.fetchPage(
+      Document document = htmlParser.parsePage(
           "http://semed.palmas.to.gov.br/sige/app/action/mo/pessoaresponsavel/pessoaresponsaveltemcadastro.php?cpf="
               + cpf,
-          Method.POST, null);
+          Method.POST);
       Element body = document.body();
 
       ObjectMapper mapper = new ObjectMapper();
@@ -78,7 +78,8 @@ public class ResponsavelCadastroService {
           "http://semed.palmas.to.gov.br/sige/app/action/mo/pessoacadastro/jsonallpessoacadastroresponsavel.php?cpf="
               + cpf
               + "&idpessoaresponsavel="
-              + idPessoaReponsavel);
+              + idPessoaReponsavel,
+          Method.GET);
       ObjectMapper mapper = new ObjectMapper();
       CriancaWrapper wrapper = mapper.readValue(doc.body().text(), CriancaWrapper.class);
 
@@ -94,7 +95,7 @@ public class ResponsavelCadastroService {
     String md5 = DigestUtils.md5DigestAsHex(protocolo.getBytes(StandardCharsets.UTF_8));
     String url = "http://semed.palmas.to.gov.br/sige/indexrelatoriomatriculaonline.php?url=50EC1894EF4018C8ACE6623CBAAE39B4&p="
         + md5;
-    Document doc = htmlParser.parsePage(url);
+    Document doc = htmlParser.parsePage(url, Method.POST);
     Element bodyPage = doc.body();
     Elements tables = bodyPage.select("table:gt(0)");
     int quantidadeCadastros = tables.size();

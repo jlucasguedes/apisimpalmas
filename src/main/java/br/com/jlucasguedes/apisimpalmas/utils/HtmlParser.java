@@ -1,6 +1,7 @@
 package br.com.jlucasguedes.apisimpalmas.utils;
 
 import java.io.IOException;
+import org.jsoup.Connection.Method;
 import java.util.Map;
 
 import org.jsoup.Connection;
@@ -12,9 +13,10 @@ import br.com.jlucasguedes.apisimpalmas.exception.InputOutputException;
 
 @Component
 public class HtmlParser {
-  public Document parsePage(String url) {
+  public Document parsePage(String url, Method method) {
     try {
       return Jsoup.connect(url)
+          .method(method)
           .userAgent("Mozilla/5.0")
           .timeout(120 * 1000)
           .get();
@@ -27,7 +29,7 @@ public class HtmlParser {
     try {
       Connection connection = Jsoup.connect(url)
           .method(method)
-          .timeout(10000) // tempo limite opcional
+          .timeout(120 * 1000) // tempo limite opcional
           .userAgent("Mozilla/5.0") // simula um navegador
           .header("Content-Type", "application/x-www-form-urlencoded");
 

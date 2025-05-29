@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.jsoup.Connection.Method;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -100,7 +101,7 @@ public class UnidadeEducacionalService {
   public List<UnidadeEducacional> getUnidadesFromSimPalmas() {
     List<UnidadeEducacional> unidades = new ArrayList<>();
     Document document = htmlParser
-        .parsePage("http://semed.palmas.to.gov.br/sige/indexsm.php?url=92FDCD01EC7E38AA358DF35A6C14D19F");
+        .parsePage("http://semed.palmas.to.gov.br/sige/indexsm.php?url=92FDCD01EC7E38AA358DF35A6C14D19F", Method.GET);
     Element selectUnidades = document.getElementById("idunidade");
     Elements options = selectUnidades.select("option:gt(0)");
     for (Element element : options) {
@@ -112,7 +113,7 @@ public class UnidadeEducacionalService {
   public List<UnidadeEducacional> getDadosUnidadesFromSimPalmas() {
     List<UnidadeEducacional> unidades = new ArrayList<>();
     Document document = htmlParser
-        .parsePage("http://semed.palmas.to.gov.br/sige/public/sm/unidade/listunidade.php");
+        .parsePage("http://semed.palmas.to.gov.br/sige/public/sm/unidade/listunidade.php", Method.GET);
     Element tableUnidades = document.getElementsByTag("table").first();
     Element bodyTableUnidades = tableUnidades.getElementsByTag("tbody").first();
     Elements linhasBodyTableUnidades = bodyTableUnidades.getElementsByTag("tr");
