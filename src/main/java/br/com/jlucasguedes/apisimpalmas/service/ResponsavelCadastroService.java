@@ -24,6 +24,7 @@ import br.com.jlucasguedes.apisimpalmas.domain.ResponsavelCadastroWrapper;
 import br.com.jlucasguedes.apisimpalmas.domain.Serie;
 import br.com.jlucasguedes.apisimpalmas.domain.Solicitacao;
 import br.com.jlucasguedes.apisimpalmas.exception.CadastroNaoEncontradoException;
+import br.com.jlucasguedes.apisimpalmas.exception.ClassificacaoNaoLiberadaException;
 import br.com.jlucasguedes.apisimpalmas.utils.HtmlParser;
 
 @Service
@@ -35,7 +36,7 @@ public class ResponsavelCadastroService {
   @Autowired
   private UnidadeEducacionalService unidadeEducacionalService;
 
-  public ResponsavelCadastro verifiResponsavelCadastro(String cpf) {
+  public ResponsavelCadastro verificaResponsavelCadastro(String cpf) {
     try {
       Document document = htmlParser.parsePage(
           "http://semed.palmas.to.gov.br/sige/app/action/mo/pessoaresponsavel/pessoaresponsaveltemcadastro.php?cpf="
@@ -51,12 +52,33 @@ public class ResponsavelCadastroService {
       }
       ResponsavelCadastro responsavelEncontrado = wrapper.getRecords();
       responsavelEncontrado.getPessoa().setProtocolo(getProtocolo(cpf));
-      responsavelEncontrado.setCriancas(getCriancasComprovante(responsavelEncontrado.getPessoa().getProtocolo()));
+      responsavelEncontrado.setCriancas(getCriancas(responsavelEncontrado.getPessoa().getCpf(),
+          responsavelEncontrado.getPessoa().getIdpessoaresponsavel()));
       return wrapper.getRecords();
     } catch (JsonProcessingException e) {
       e.printStackTrace();
       throw new CadastroNaoEncontradoException("Não foi possivel buscar o cadastro. tente novamente mais tarde");
     }
+  }
+
+  public List<Crianca> getClassificacao(String ano, String idUnidade, String idSerie) {
+    Document document = htmlParser.fetchPage(
+        "http://semed.palmas.to.gov.br/sige/public/mo/listaesperapublica/pesquisamatriculalistmo.php",
+        Method.POST,
+        Map.of("ano", ano, "idunidade", idUnidade, "idserie", idSerie, "idtipofiltro", "1"));
+    List<Crianca> criancas = new ArrayList<>();
+    Element table = document.getElementById("tblistprotocolo");
+    Element bodyTable = table.getElementsByTag("tbody").first();
+    Element row = bodyTable.getElementsByTag("tr").first();
+
+    if (!document.getElementsByTag("strong").isEmpty()) {
+      if (document.getElementsByTag("strong").first().text().equals("Atenção!")) {
+        throw new ClassificacaoNaoLiberadaException(
+            "Atenção! A lista de classificação ainda não está liberada pela administração do sistema na Secretraria de Educação.");
+      }
+    }
+
+    return criancas;
   }
 
   private String getProtocolo(String cpf) {

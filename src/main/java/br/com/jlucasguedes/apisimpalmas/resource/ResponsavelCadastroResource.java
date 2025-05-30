@@ -19,6 +19,12 @@ public class ResponsavelCadastroResource {
 
   @GetMapping("/{cpf}")
   public ResponseEntity<ResponsavelCadastro> verificarCadastro(@PathVariable String cpf) {
-    return ResponseEntity.ok().body(service.verifiResponsavelCadastro(cpf));
+    return ResponseEntity.ok().body(service.verificaResponsavelCadastro(cpf));
+  }
+
+  @GetMapping(value = "/classificacao/{ano}/{idUnidade}/{idSerie}")
+  public ResponseEntity<?> listar(@PathVariable String ano, @PathVariable String idUnidade,
+      @PathVariable String idSerie) {
+    return ResponseEntity.ok().body(service.getClassificacao(ano, idUnidade, idSerie));
   }
 }

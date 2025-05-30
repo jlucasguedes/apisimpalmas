@@ -20,7 +20,7 @@ public class SolicitacaoService {
   @Autowired
   private HtmlParser htmlParser;
 
-  public ResponsavelCadastro verifiCadastro(String cpf) {
+  public ResponsavelCadastro verificaCadastro(String cpf) {
     try {
       Document doc = htmlParser.fetchPage(
           "http://semed.palmas.to.gov.br/sige/app/action/mo/pessoaresponsavel/pessoaresponsaveltemcadastro.php?cpf="
